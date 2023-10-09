@@ -1,18 +1,30 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import userDefaultImage from "../../../assets/user.png"
 import "./Navbar.css"
+import { useContext } from "react";
+import { AuthContext } from "../../../Providers/AuthProvider";
 
 const Navbar = () => {
 
+    const {user, logOut} = useContext(AuthContext);
+
+    console.log(user)
+
+    const handleSignOut = () =>{
+        logOut()
+        .then()
+        .catch()
+    }
+
     const navLinks = <>
         <li className="mr-5 text-lg text-[#706F6F] "><NavLink to="/">Home</NavLink></li>
-        <li className="mr-5 text-lg text-[#706F6F] "><NavLink to="/about">About</NavLink></li>
-        <li className="mr-5 text-lg text-[#706F6F] "><NavLink to="/career">Career</NavLink></li>
         <li className="mr-5 text-lg text-[#706F6F] "><NavLink to="/login">Login</NavLink></li>
+        <li className="mr-5 text-lg text-[#706F6F] "><NavLink to="/register">Register</NavLink></li>
+        <li className="mr-5 text-lg text-[#706F6F] "><NavLink to="/contact-us">Contact Us</NavLink></li>
     </>
 
     return (
-        <div className="navbar bg-base-100 mb-16">
+        <div className="navbar bg-base-100">
             <div className="navbar-start">
                 <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -29,14 +41,23 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <label tabIndex={0} className="avatar mr-2">
-                    <div className="w-12 rounded-full">
+                {
+                    user ? 
+                    <label tabIndex={0} className="avatar mr-2">
+                    <div className="w-10 lg:w-12 rounded-full">
                         <img src={userDefaultImage} />
                     </div>
                 </label>
-                <Link>
-                    <button className="text-xl bg-[#403F3F] text-white font-semibold px-8 py-[10px]">Login</button>
-                </Link>
+                :
+                ""
+                }
+
+                {
+                    user ? 
+                    <button onClick={handleSignOut} className="text-xl bg-[#403F3F] text-white font-medium lg:font-semibold px-4 lg:px-8 py-1 lg:py-[10px]">Sign Out</button>
+                    :
+                    ""
+                }
             </div>
         </div>
     );
